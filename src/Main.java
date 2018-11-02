@@ -1,44 +1,67 @@
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
+
+        Player player = new Player(0, 1);
+        Classroom classroom = new Classroom();
+
         try {
-            testPuttingCharactersOnTerminal(); // LESSON 1
-//            testReadingFromTerminal(); // LESSON 2
-//            movingInsideTheTerminal(); // LESSON 3
-//            testColorsAndGraphics(); // LESSON 4
-//            testRandomColors(); // LESSON 5
+            Terminal terminal = createTerminal();
+
+            // Print computers
+//            for (Computer computer : ) {
+//                terminal.setCursorPosition(computer.getX(), computer.getY()); // go to position(column, row)
+//                terminal.putCharacter(computer.getSymbol());
+//            }
+            classroom.printClassroom(terminal);
+
+            // Print player
+            terminal.setCursorPosition(player.getX(), player.getY());
+            terminal.putCharacter(player.getSymbol());
+
+
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        } finally {
-            System.out.println("DONE!");
+            // TODO
         }
+
+
+    }
+    private static void movePlayer(Player player, KeyStroke keyStroke) {
+        switch (keyStroke.getKeyType()) {
+            case ArrowUp:
+                if (Classroom.isPositionAvailable(player.getX(), player.getY()-1))
+                player.moveUp();
+                break;
+            case ArrowDown:
+                if (Classroom.isPositionAvailable(player.getX(), player.getY()+1))
+                    player.moveDown();
+                break;
+            case ArrowLeft:
+                if (Classroom.isPositionAvailable(player.getX()-1, player.getY()))
+                    player.moveLeft();
+                break;
+            case ArrowRight:
+                if (Classroom.isPositionAvailable(player.getX()+1, player.getY())
+                    player.moveRight();
+                break;
+        }
+
     }
 
-        // LESSON 1
-        public static void testPuttingCharactersOnTerminal() throws IOException {
-            // Create a "factory object" (it's a design-pattern) that can create a terminal for us
-            DefaultTerminalFactory terminalFactory =
-                    new DefaultTerminalFactory(System.out, System.in, Charset.forName("UTF8"));
-            Terminal terminal = terminalFactory.createTerminal(); // most terminal methods can throw IOException
+    private static Terminal createTerminal() throws IOException {
+        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
+        Terminal terminal = terminalFactory.createTerminal();
+        terminal.setCursorVisible(false);
+        return terminal;
+    }
 
-            // Write out a couple of 'X'
-            for (int column = 0; column < 5; column++) {
-                terminal.setCursorPosition(column, 0); // go to position(column, row)
-                terminal.putCharacter('X');
-            }
-
-            // Write out a couple of 'O'
-            for (int row = 2; row < 6; row++) {
-                terminal.setCursorPosition(2, row); // go to position(column, row)
-                terminal.putCharacter('O');
-            }
-
-
-        }
 }

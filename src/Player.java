@@ -80,41 +80,46 @@ public class Player {
                 '}';
     }
 
-    public void movePlayer(KeyStroke keyStroke, Classroom classroom) {
+    public void movePlayer(KeyStroke keyStroke) {
 
         int x = this.getX();
         int y = this.getY();
+        Computer computer;
 
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
-                if (Classroom.isPositionAvailable(x, y - 1))
+                computer = Classroom.getComputerAt(x, y-1);
+                if (computer == null)
                     this.moveUp();
-                else if (!classroom.getComputerAt(x, y - 1).isLocked()) {
-                    classroom.getComputerAt(x, y - 1).lock();
+                else if (computer.isUnlocked()) {
+                    computer.lock();
                     this.increaseHighScore();
                 }
                 break;
             case ArrowDown:
-                if (Classroom.isPositionAvailable(this.getX(), this.getY() + 1))
+                computer = Classroom.getComputerAt(x, y+1);
+                if (computer == null)
                     this.moveDown();
-                else if (!classroom.getComputerAt(this.getX(), this.getY() + 1).isLocked()) {
-                    classroom.getComputerAt(this.getX(), this.getY() + 1).lock();
+                else if (computer.isUnlocked()) {
+                    computer.lock();
                     this.increaseHighScore();
                 }
                 break;
             case ArrowLeft:
-                if (Classroom.isPositionAvailable(this.getX() - 1, this.getY()))
+                computer = Classroom.getComputerAt(x - 1, y);
+                if (computer == null)
                     this.moveLeft();
-                else if (!classroom.getComputerAt(this.getX() - 1, this.getY()).isLocked()) {
-                    classroom.getComputerAt(this.getX() - 1, this.getY()).lock();
+                else if (computer.isUnlocked()) {
+                    computer.lock();
                     this.increaseHighScore();
                 }
                 break;
             case ArrowRight:
-                if (Classroom.isPositionAvailable(this.getX() + 1, this.getY()))
+                computer = Classroom.getComputerAt(x + 1, y);
+                if (computer == null)
                     this.moveRight();
-                else if (!classroom.getComputerAt(this.getX() + 1, this.getY()).isLocked()) {
-                    classroom.getComputerAt(this.getX() + 1, this.getY()).lock();
+                else if (computer.isUnlocked()) {
+                    computer.lock();
                     this.increaseHighScore();
                 }
                 break;

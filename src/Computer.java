@@ -27,6 +27,10 @@ public class Computer {
         return isLocked;
     }
 
+    public boolean isUnlocked() {
+        return !isLocked;
+    }
+
     public int getX() {
         return coordinate.getX();
     }

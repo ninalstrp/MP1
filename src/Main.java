@@ -13,8 +13,9 @@ public class Main {
         Andreas andreas = new Andreas(45, 10);
         Classroom classroom = new Classroom();
         Computer target = null;
+        boolean gameOver = false;
 
-        while (true) {
+        while (!gameOver) {
             KeyStroke keyStroke;
 
             printClassroom(terminal);
@@ -34,10 +35,10 @@ public class Main {
 
             if (andreas.hasReachedTarget(target)) {
                 gameOver(terminal);
-                break;
+                gameOver = true;
             }
 
-            player.movePlayer(keyStroke, classroom);
+            player.movePlayer(keyStroke);
             andreas.moveTowards(target);
 
             terminal.flush();

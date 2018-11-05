@@ -9,8 +9,9 @@ public class Computer {
         this.x = x;
         this.y = y;
         this.isLocked = true;
-        this.symbol = 'O';
+        this.symbol = '\uDCBB';
     }
+
 
     public void unlock() {
         this.isLocked = false;

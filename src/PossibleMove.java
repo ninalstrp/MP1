@@ -1,20 +1,18 @@
 public class PossibleMove {
-    private int x;
-    private int y;
+    private Coordinate coordinate;
     private int numberOfMoves;
 
     public PossibleMove(int x, int y, int numberOfMoves) {
-        this.x = x;
-        this.y = y;
+        this.coordinate = new Coordinate(x, y);
         this.numberOfMoves = numberOfMoves;
     }
 
     public int getX() {
-        return x;
+        return coordinate.getX();
     }
 
     public int getY() {
-        return y;
+        return coordinate.getY();
     }
 
     public int getNumberOfMoves() {

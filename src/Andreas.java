@@ -7,7 +7,7 @@ public class Andreas {
     private final char symbol;
     private int previousX;
     private int previousY;
-    private List<Coordinate> previousMoves;
+    private List<Coordinate> visitedCoordinates;
 
     public Andreas(int x, int y) {
         this.x = x;
@@ -15,8 +15,7 @@ public class Andreas {
         this.symbol = '\u2689';
         this.previousX = x;
         this.previousY = y;
-        this.previousMoves = new ArrayList<>();
-
+        this.visitedCoordinates = new ArrayList<>();
     }
 
     public int getPreviousX() {
@@ -40,38 +39,25 @@ public class Andreas {
     }
 
     public boolean hasReachedTarget(Computer target) {
-        // Ovan target
-        if (this.x == target.getX() && (this.y+1 == target.getY()))
-            return true;
-
-        // Under target
-        else if (this.x == target.getX() && (this.y-1 == target.getY()))
-            return true;
-
-        // Till höger om target
-        else if (this.x+1 == target.getX() && (this.y == target.getY()))
-            return true;
-
-        // Till vänster om target
-        else if (this.x-1 == target.getX() && (this.y == target.getY()))
-            return true;
-
-        return false;
+        return target.getCoordinate().equals(x, y + 1) ||     // Position above target
+                target.getCoordinate().equals(x, y - 1) ||    // Position below target
+                target.getCoordinate().equals(x + 1, y) ||    // Position right of target
+                target.getCoordinate().equals(x - 1, y);      // Position left of target
     }
 
     private void checkIfPossibleMove(List<PossibleMove> possibleMoves, int x, int y, Computer targetComputer) {
         Computer computer = Classroom.getComputerAt(x, y);
-        if (computer == null && isNotPreviousMove(new Coordinate(x, y))) {
+
+        if (computer == null && isNotPreviousMove(x, y)) {
             int distance = Math.abs(targetComputer.getX() - x) + Math.abs(targetComputer.getY() - y);
             PossibleMove pm = new PossibleMove(x, y, distance);
             possibleMoves.add(pm);
         }
-
     }
 
-    private boolean isNotPreviousMove(Coordinate coord) {
-        for (Coordinate previousMove : previousMoves) {
-            if (previousMove.equals(coord)) {
+    private boolean isNotPreviousMove(int x, int y) {
+        for (Coordinate visited : visitedCoordinates) {
+            if (visited.equals(x, y)) {
                 return false;
             }
         }
@@ -85,18 +71,11 @@ public class Andreas {
             if (possibleMove.getNumberOfMoves() < shortest.getNumberOfMoves()) {
                 shortest = possibleMove;
             }
-
         }
         return shortest;
     }
 
     public void moveTowards(Computer computer) {
-        // a monster wants to minimize the distance between itself and the player
-
-        // Along which axis should the monster move in?
-        // The monster will move in the direction in which the distance between monster and player is the largest.
-        // Let's use the absolute value of the difference between the x-ccordinates vs the y-coordinates!
-        // Example of Math.abs -> https://www.tutorialspoint.com/java/lang/math_abs_int.htm
 
         previousX = x;
         previousY = y;
@@ -111,33 +90,12 @@ public class Andreas {
         this.x = bestRoute.getX();
         this.y = bestRoute.getY();
 
-        this.previousMoves.add(new Coordinate(this.x, this.y));
+        this.visitedCoordinates.add(new Coordinate(this.x, this.y));
 
-//        int diffX = this.x - computer.getX();
-//        int absDiffX = Math.abs(diffX);
-//        int diffY = this.y - computer.getY();
-//        int absDiffY = Math.abs(diffY);
-//
-//
-//        if (absDiffX + absDiffY == 1) {
-//            return "Game over";
-//        }
-//
-//        if (absDiffX > absDiffY) {
-//            // Move horizontal! <--->}
-//            if (diffX < 0 && Classroom.isPositionAvailable(this.x + 1, this.y)) {
-//                this.x += 1;
-//            } else if (diffX > 0 && Classroom.isPositionAvailable(this.x - 1, this.y))
-//                this.x -= 1;
-//        } else {
-//            // Move vertical!
-//            if (diffY < 0 && Classroom.isPositionAvailable(this.x, this.y + 1)) {
-//                this.y += 1;
-//            } else if (diffY >= 0 && Classroom.isPositionAvailable(this.x, this.y - 1)) {
-//                this.y -= 1;
-//            }
-//        }
-//        return void;
+    }
+
+    public void resetVisitedCoordinates() {
+        this.visitedCoordinates = new ArrayList<>();
     }
 
     @Override

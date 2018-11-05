@@ -1,13 +1,11 @@
 public class Computer {
     private boolean isLocked;
-    private final int x;
-    private final int y;
+    private final Coordinate coordinate;
     private final char symbol;
 
 
     public Computer(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.coordinate = new Coordinate(x, y);
         this.isLocked = true;
         this.symbol = '\uDCBB';
     }
@@ -30,10 +28,14 @@ public class Computer {
     }
 
     public int getX() {
-        return x;
+        return coordinate.getX();
     }
 
     public int getY() {
-        return y;
+        return coordinate.getY();
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 }

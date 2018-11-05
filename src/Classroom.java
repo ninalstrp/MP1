@@ -11,7 +11,6 @@ public class Classroom {
 
     private static List<Computer> computers = new ArrayList<>();
 
-
     public Classroom() {
         createComputers();
     }
@@ -24,32 +23,15 @@ public class Classroom {
         }
     }
 
-
-    public void randomComputerUnlocker() throws InterruptedException {
+    public Computer unlockRandomComputer() throws InterruptedException {
         int randomInt = ThreadLocalRandom.current().nextInt(0, computers.size());
-        computers.get(randomInt).unlock();
+        Computer randomComputer = computers.get(randomInt);
+        randomComputer.unlock();
+        return randomComputer;
     }
+
     public static List<Computer> getComputers() {
         return computers;
-    }
-
-    public void printClassroom(Terminal terminal) throws IOException {
-
-        try {
-            for (Computer computer : computers) {
-                if(computer.isLocked()) {
-                    terminal.setBackgroundColor(TextColor.ANSI.RED);
-
-                }
-                else {
-                    terminal.setBackgroundColor(TextColor.ANSI.GREEN);
-                }
-                terminal.setCursorPosition(computer.getX(), computer.getY()); // go to position(column, row)
-                terminal.putCharacter(computer.getSymbol());
-            }
-        } catch (Exception e) {//TODO}
-        }
-        terminal.resetColorAndSGR();
     }
 
     public static boolean isPositionAvailable(int x, int y) {
@@ -68,13 +50,14 @@ public class Classroom {
         return null;
     }
 
-    public boolean isAllComputersLocked(){
+    public boolean isAllComputersLocked() {
         for (Computer computer : computers) {
             if (!computer.isLocked())
                 return false;
         }
         return true;
     }
+
     public Computer getUnlockedComputer() {
         for (Computer computer : computers) {
             if (!computer.isLocked())

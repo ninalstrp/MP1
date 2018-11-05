@@ -27,9 +27,13 @@ public class Coordinate {
         return (this.x == other.x) && (this.y == other.y);
     }
 
+    public boolean equals(int x, int y) {
+        return (this.x == x) && (this.y == y);
+    }
+
 //    @Override
 //    public int hashCode() {
 //        return Objects.hashCode(());
-    }
+}
 
 

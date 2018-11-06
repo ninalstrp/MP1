@@ -11,6 +11,10 @@ public class Classroom {
 
     private static List<Computer> computers = new ArrayList<>();
 
+    public static void resetComputers(){
+        computers = new ArrayList<>();
+    }
+
     public Classroom() {
         createComputers();
     }

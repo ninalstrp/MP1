@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -9,7 +10,6 @@ import java.io.IOException;
 public class Main {
 
     private static void loop(Terminal terminal) throws InterruptedException, IOException {
-
 
         while (true) {
             Player player = new Player(0, 1);
@@ -159,19 +159,23 @@ public class Main {
 
     private static void gameOver(Terminal terminal) throws IOException {
         // Position för meddelandet
-        terminal.setCursorPosition(25, 7);
+        terminal.setCursorPosition(0, 8);
+        terminal.enableSGR(SGR.BLINK);
+        terminal.enableSGR(SGR.BORDERED);
+        terminal.enableSGR(SGR.BOLD);
+        terminal.setBackgroundColor(TextColor.ANSI.RED);
 
-        String gameOver = "                                                               \n" +
-                " d888b   .d8b.  .88b  d88. d88888b       .d88b.  db    db d88888b d8888b. \n" +
+        String gameOver = " d888b   .d8b.  .88b  d88. d88888b       .d88b.  db    db d88888b d8888b. \n" +
                 "88' Y8b d8' `8b 88'YbdP`88 88'          .8P  Y8. 88    88 88'     88  `8D \n" +
                 "88      88ooo88 88  88  88 88ooooo      88    88 Y8    8P 88ooooo 88oobY' \n" +
                 "88  ooo 88~~~88 88  88  88 88~~~~~      88    88 `8b  d8' 88~~~~~ 88`8b   \n" +
                 "88. ~8~ 88   88 88  88  88 88.          `8b  d8'  `8bd8'  88.     88 `88. \n" +
-                " Y888P  YP   YP YP  YP  YP Y88888P       `Y88P'     YP    Y88888P 88   YD\n\n" +
+                " Y888P  YP   YP YP  YP  YP Y88888P       `Y88P'     YP    Y88888P 88   YD \n\n" +
                 "Tryck 's' för att starta om.";
         for (char c : gameOver.toCharArray()) {
             terminal.putCharacter(c);
         }
+        terminal.resetColorAndSGR();
         terminal.flush();
     }
     private static void printAndreasStart(Terminal terminal) throws IOException {

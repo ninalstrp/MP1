@@ -88,16 +88,18 @@ public class Player {
 
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
-                computer = Classroom.getComputerAt(x, y-1);
-                if (computer == null)
-                    this.moveUp();
-                else if (computer.isUnlocked()) {
-                    computer.lock();
-                    this.increaseHighScore();
+                if (y > 0) {
+                    computer = Classroom.getComputerAt(x, y - 1);
+                    if (computer == null)
+                        this.moveUp();
+                    else if (computer.isUnlocked()) {
+                        computer.lock();
+                        this.increaseHighScore();
+                    }
                 }
                 break;
             case ArrowDown:
-                computer = Classroom.getComputerAt(x, y+1);
+                computer = Classroom.getComputerAt(x, y + 1);
                 if (computer == null)
                     this.moveDown();
                 else if (computer.isUnlocked()) {
@@ -106,12 +108,14 @@ public class Player {
                 }
                 break;
             case ArrowLeft:
-                computer = Classroom.getComputerAt(x - 1, y);
-                if (computer == null)
-                    this.moveLeft();
-                else if (computer.isUnlocked()) {
-                    computer.lock();
-                    this.increaseHighScore();
+                if (x > 0) {
+                    computer = Classroom.getComputerAt(x - 1, y);
+                    if (computer == null)
+                        this.moveLeft();
+                    else if (computer.isUnlocked()) {
+                        computer.lock();
+                        this.increaseHighScore();
+                    }
                 }
                 break;
             case ArrowRight:
